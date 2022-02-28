@@ -1,0 +1,12 @@
+.appTodo{
+  width: 1vw;
+  height: 1vh;
+  background-color:white;
+}
+.todo{
+  background-color: white;
+  color: #282c34;
+  width: 15em;
+  min-height: 10em;
+  border-radius:5px;
+}

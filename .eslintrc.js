@@ -25,6 +25,6 @@ module.exports = {
     quotes: ["error", "double"],
     semi: ["error", "always"],
     "comma-dangle": ["error", "never"],
-    "space-before-function-paren": ["error", "always"]
+    "space-before-function-paren": ["error", "never"]
   }
 };
