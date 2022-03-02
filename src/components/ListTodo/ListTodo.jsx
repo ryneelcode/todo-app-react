@@ -1,6 +1,6 @@
 import Todo from "../Todo/Todo";
 
-const ListTodo = ({ todos }) => {
+const ListTodo = ({ todos, removeTodo }) => {
   return (
     <>
       {
@@ -9,7 +9,8 @@ const ListTodo = ({ todos }) => {
             key={id}
             id={id}
             title={title}
-            description={description} />
+            description={description}
+            removeTodo={removeTodo} />
         ))
       }
     </>

@@ -1,7 +1,9 @@
-import { useState } from "react";
 import Modal from "./components/Modal/Modal";
 import ListTodo from "./components/ListTodo/ListTodo";
 import FormTodo from "./components/FormTodo/FormTodo";
+import { useTodo } from "./hooks/useTodo";
+import { useModal } from "./hooks/useModal";
+
 import "./App.css";
 
 const initalTodos = [
@@ -12,32 +14,9 @@ const initalTodos = [
 ];
 
 function App() {
-  const [todos, setTodo] = useState(initalTodos);
-  const [isVisible, setVisibility] = useState(false);
-
-  const showModal = () => {
-    setVisibility(true);
-  };
-
-  const closeModal = () => {
-    setVisibility(false);
-  };
-
-  const addTodo = (todo) => {
-    const newTodo = {
-      id: Date.now(),
-      ...todo,
-      isCompleted: false
-    };
-
-    const todosChanged = [
-      newTodo,
-      ...todos
-    ];
-
-    setTodo(todosChanged);
-  };
-  // TODO validaciones del formulario y crud del todo
+  const [todos, addTodo, removeTodo] = useTodo(initalTodos);
+  const [isVisible, showModal, closeModal] = useModal();
+  // TODO confirmacion de borrar tarea, editar las tareas disponibles (utilizar el mismo modal y form), notificiaciones (agregado, borrado)
   return (
     <div className="app-todo">
       <h1>Lista de tareas</h1>
@@ -48,10 +27,10 @@ function App() {
         isVisible={isVisible}
         closeModal={closeModal}
       >
-        <FormTodo addTodo={addTodo} />
+        <FormTodo addTodo={addTodo} removeTodo={removeTodo} />
       </Modal>
       <section className="todo-list">
-        <ListTodo todos={todos} />
+        <ListTodo todos={todos} removeTodo={removeTodo} />
       </section>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./FormTodo.css";
 
 const initialValues = {
   title: "",
@@ -31,9 +32,9 @@ const FormTodo = ({ addTodo }) => {
 
   return (
     <form className="form-todo" onSubmit={handleSubmit}>
-      <label htmlFor="title">Título </label>
+      <label htmlFor="title">Título</label>
       <input type="text" name="title" onChange={handleInputChange} value={title} placeholder="ej: Hacer la compra" />
-      <label htmlFor="description">Descripción </label>
+      <label htmlFor="description">Descripción</label>
       <textarea name="description" id="" cols="30" rows="10" onChange={handleInputChange} value={description} placeholder="ej: Comprar huevos..."></textarea>
       <button className="send-todo">
         Agregar
