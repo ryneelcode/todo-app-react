@@ -26,8 +26,9 @@ function App() {
       <Modal
         isVisible={isVisible}
         closeModal={closeModal}
+        title={"Añadir tarea"}
       >
-        <FormTodo addTodo={addTodo} removeTodo={removeTodo} />
+        <FormTodo addTodo={addTodo} />
       </Modal>
       <section className="todo-list">
         <ListTodo todos={todos} removeTodo={removeTodo} />

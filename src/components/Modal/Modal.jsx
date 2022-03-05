@@ -1,6 +1,6 @@
 import "./Modal.css";
 
-const Modal = ({ isVisible, closeModal, children }) => {
+const Modal = ({ isVisible, closeModal, children, title }) => {
   const handleModalCick = (e) => {
     e.stopPropagation();
   };
@@ -8,7 +8,7 @@ const Modal = ({ isVisible, closeModal, children }) => {
   return (
     <section className={isVisible ? "modal modal-open" : "modal"} onClick={closeModal}>
       <div className="content-modal" onClick={handleModalCick}>
-        <h1>Texto del modal</h1>
+        <h1>{title}</h1>
         {children}
       </div>
     </section >
