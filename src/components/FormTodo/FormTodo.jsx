@@ -1,72 +1,40 @@
-import { useState } from "react";
-import Input from "../Input/Input";
-
+import { useForm } from "../../hooks/useForm";
 import "./FormTodo.css";
 
 const initialValues = {
   title: {
     value: "",
-    isValid: null
+    pattern: /^[A-Za-z\s]+$/,
+    errorMessage: "solo letras",
+    isRequired: true,
+    isTouched: false
   },
   description: {
     value: "",
-    isValid: null
+    pattern: /^[A-Za-z\s]+$/,
+    errorMessage: "solo letras",
+    isRequired: true,
+    isTouched: false
   }
 };
 
-const inputs = [
-  {
-    id: 1,
-    name: "title",
-    label: "Título",
-    type: "text",
-    placeholder: "Nombra la tarea",
-    pattern: /^[A-Za-z]+$/,
-    errorMessage: "Solo letras",
-    required: true
-  },
-  {
-    id: 2,
-    name: "description",
-    label: "Descrición",
-    type: "textarea",
-    placeholder: "Descripción de la tarea",
-    pattern: "",
-    errorMessage: "Completa la descripcion",
-    required: false
-  }
-];
-
 const FormTodo = ({ addTodo }) => {
-  const [formValues, setFormValues] = useState(initialValues);
-  const { title, description } = formValues;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (title.isValid) {
-      console.log("es valido el titulo al hacer submit");
-    } else {
-      console.log("no es valido");
-    }
-    console.log(title, description);
-  };
+  const [
+    values,
+    errors,
+    handleOnChange,
+    handleOnSubmit,
+    handleOnBlur,
+    fieldValidate
+  ] = useForm(initialValues);
 
   return (
-    <form className="form-todo" onSubmit={handleSubmit}>
-      {inputs.map(({ id, name, label, type, placeholder, pattern, errorMessage, required }) => (
-        <Input
-          key={id}
-          name={name}
-          label={label}
-          type={type}
-          placeholder={placeholder}
-          pattern={pattern}
-          errorMessage={errorMessage}
-          required={required}
-          formValues={formValues}
-          setFormValues={setFormValues}
-        />
-      ))}
+    <form className="form-todo" onSubmit={(e) => handleOnSubmit(e, addTodo)}>
+      <label htmlFor="title">Titulo {errors.title && <span className="error-message">{errors.title}</span>}</label>
+      <input type="text" name="title" className="field" onChange={handleOnChange} onKeyUp={fieldValidate} onBlur={handleOnBlur} value={values.title.value} />
+
+      <label htmlFor="title">Descripción {errors.description && <span className="error-message">{errors.description}</span>}</label>
+      <textarea name="description" className="field" id="" cols="30" rows="10" onChange={handleOnChange} onKeyUp={fieldValidate} onBlur={handleOnBlur} value={values.description.value}></textarea>
       <button className="send-todo">
         Agregar
       </button>

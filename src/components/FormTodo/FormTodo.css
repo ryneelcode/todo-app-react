@@ -40,9 +40,11 @@
   border-style: solid;
   border-width: 2px 2px 2px 10px;
 }
-
 .error-label{
   padding:1px 4px 1px 4px;
   color: #EC4234;
   border-radius:3px;
+}
+.error-message{
+  color: red;
 }
