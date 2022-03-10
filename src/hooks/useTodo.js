@@ -11,12 +11,7 @@ export function useTodo(initalTodos = []) {
       isCompleted: false
     };
 
-    const todosChanged = [
-      newTodo,
-      ...todos
-    ];
-
-    setTodo(todosChanged);
+    setTodo([newTodo, ...todos]);
   };
 
   const removeTodo = (idTodo) => {

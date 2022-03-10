@@ -15,7 +15,7 @@ const initalTodos = [
 
 function App() {
   const [todos, addTodo, removeTodo] = useTodo(initalTodos);
-  const [isVisible, showModal, closeModal] = useModal();
+  const [isVisible, showModal, closeModal] = useModal(false);
   // TODO confirmacion de borrar tarea, editar las tareas disponibles (utilizar el mismo modal y form), notificiaciones (agregado, borrado)
   return (
     <div className="app-todo">
@@ -28,7 +28,7 @@ function App() {
         closeModal={closeModal}
         title={"Añadir tarea"}
       >
-        <FormTodo addTodo={addTodo} />
+        <FormTodo addTodo={addTodo} formIsVisible={isVisible} />
       </Modal>
       <section className="todo-list">
         <ListTodo todos={todos} removeTodo={removeTodo} />

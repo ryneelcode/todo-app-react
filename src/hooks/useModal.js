@@ -1,6 +1,6 @@
 import { useState } from "react";
-export function useModal() {
-  const [isVisible, setVisibility] = useState(false);
+export function useModal(initialValue = false) {
+  const [isVisible, setVisibility] = useState(initialValue);
 
   const showModal = () => {
     setVisibility(true);

@@ -4,103 +4,104 @@ export const useForm = (initialValues) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
 
-  const handleOnChange = (e) => {
+  const formReset = () => {
+    setErrors({});
+    setValues(initialValues);
+  };
+
+  const handleOnChange = e => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: { ...values[name], value: value } });
   };
 
-  const handleOnSubmit = (e, addTodo) => {
-    e.preventDefault();
-    setErrors(formValidate(values));
-
-    if (Object.keys(formValidate(values)).length === 0) {
-      console.log("formulario valido");
-    } else {
-      console.log("formulario no valido");
-    }
-  };
-
-  const handleOnBlur = (e) => {
+  const handleOnBlur = e => {
     const { name } = e.target;
     setValues({ ...values, [name]: { ...values[name], isTouched: true } });
   };
 
+  const handleOnSubmit = (e, callback) => {
+    e.preventDefault();
+    setErrors(formValidate(values));
+
+    if (Object.keys(formValidate(values)).length === 0) {
+      const newObject = {};
+      Object.entries(values).forEach(field => {
+        const [key, value] = field;
+        newObject[key] = value.value;
+      });
+      callback(newObject);
+      formReset();
+    }
+  };
+
   const fieldValidate = (e) => {
     const errorsInput = { ...errors };
-    const { name, value } = e.target;
-    const field = values[name];
-    if (field.isRequired) {
-      if (field.value.trim() !== "") {
-        if (field.pattern) {
-          if (!field.pattern.test(value)) {
-            errorsInput[name] = field.errorMessage;
-          } else {
-            delete errorsInput[name];
-          }
-        }
-      } else {
-        errorsInput[name] = "campo requerido";
-      }
+    const { name } = e.target;
+    const value = values[name];
+    const { fieldName, fieldError } = validation(name, value);
+
+    if (fieldName !== "") {
+      errorsInput[fieldName] = fieldError;
     } else {
-      if (value.trim() !== "") {
-        if (field.pattern) {
-          if (field.pattern.test(value.trim())) {
-            delete errorsInput[name];
-          } else {
-            errorsInput[name] = field.errorMessage;
-          }
-        }
-      } else {
-        delete errorsInput[name];
-      }
+      delete errorsInput[name];
     }
     setErrors(errorsInput);
   };
 
-  const validation = (field) => {
-    const errors = {};
-  };
-
-  const formValidate = (values) => {
-    const newErrors = { ...errors };
+  const formValidate = values => {
+    const newErrors = {};
     Object.entries(values).forEach(entry => {
-      const [key, field] = entry;
-      if (field.isRequired) {
-        if (field.value.trim() !== "") {
-          if (field.pattern) {
-            if (!field.pattern.test(field.value)) {
-              newErrors[key] = field.errorMessage;
-            } else {
-              delete newErrors[key];
-            }
-          }
-        } else {
-          newErrors[key] = "campo requerido";
-        }
-      } else {
-        if (field.value.trim() !== "") {
-          if (field.pattern) {
-            if (field.pattern.test(field.value.trim())) {
-              delete newErrors[key];
-            } else {
-              newErrors[key] = field.errorMessage;
-            }
-          }
-        } else {
-          delete newErrors[key];
-        }
+      const [field, values] = entry;
+      const { fieldName, fieldError } = validation(field, values);
+      if (fieldName !== "") {
+        newErrors[fieldName] = fieldError;
       }
     });
-
     return newErrors;
   };
 
-  return [
+  return {
     values,
     errors,
     handleOnChange,
-    handleOnSubmit,
     handleOnBlur,
-    fieldValidate
-  ];
+    handleOnSubmit,
+    fieldValidate,
+    formReset
+  };
+};
+
+const validation = (key, values) => {
+  let fieldName = key;
+  let fieldError = "";
+
+  if (values.isRequired) {
+    if (values.value.trim() !== "") {
+      if (values.pattern) {
+        if (!values.pattern.test(values.value)) {
+          fieldError = values.errorMessage;
+        } else {
+          fieldName = "";
+          fieldError = "";
+        }
+      }
+    } else {
+      fieldError = "campo requerido";
+    }
+  } else {
+    if (values.value.trim() !== "") {
+      if (values.pattern) {
+        if (values.pattern.test(values.value.trim())) {
+          fieldName = "";
+          fieldError = "";
+        } else {
+          fieldError = values.errorMessage;
+        }
+      }
+    } else {
+      fieldName = "";
+      fieldError = "";
+    }
+  }
+  return { fieldName, fieldError };
 };
