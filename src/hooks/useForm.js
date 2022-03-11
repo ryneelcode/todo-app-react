@@ -1,12 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const useForm = (initialValues) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
+  const [submited, setIsSubmited] = useState({ isSubmited: null, message: "" });
 
-  const formReset = () => {
-    setErrors({});
+  useEffect(() => {
+    if (submited.isSubmited !== null) {
+      formNotification();
+    }
+  }, [submited]);
+
+  const formNotification = () => {
+    if (submited.isSubmited === true) {
+      setValues(initialValues);
+      setErrors({});
+    }
+    setTimeout(() => {
+      setIsSubmited({ ...submited, isSubmited: null, message: "" });
+    }, 2500);
+  };
+
+  const resetForm = () => {
     setValues(initialValues);
+    setErrors({});
+    if (submited.isSubmited !== null) {
+      setIsSubmited({ ...submited, isSubmited: null, message: "" });
+    }
   };
 
   const handleOnChange = e => {
@@ -24,17 +44,19 @@ export const useForm = (initialValues) => {
     setErrors(formValidate(values));
 
     if (Object.keys(formValidate(values)).length === 0) {
-      const newObject = {};
+      const dataToSend = {};
       Object.entries(values).forEach(field => {
         const [key, value] = field;
-        newObject[key] = value.value;
+        dataToSend[key] = value.value;
       });
-      callback(newObject);
-      formReset();
+      callback(dataToSend);
+      setIsSubmited({ ...submited, isSubmited: true, message: "todo added" });
+    } else {
+      setIsSubmited({ ...submited, isSubmited: false, message: "complete the fields" });
     }
   };
 
-  const fieldValidate = (e) => {
+  const validateField = e => {
     const errorsInput = { ...errors };
     const { name } = e.target;
     const value = values[name];
@@ -62,12 +84,13 @@ export const useForm = (initialValues) => {
 
   return {
     values,
+    submited,
     errors,
     handleOnChange,
     handleOnBlur,
     handleOnSubmit,
-    fieldValidate,
-    formReset
+    validateField,
+    resetForm
   };
 };
 
@@ -86,7 +109,7 @@ const validation = (key, values) => {
         }
       }
     } else {
-      fieldError = "campo requerido";
+      fieldError = "required";
     }
   } else {
     if (values.value.trim() !== "") {

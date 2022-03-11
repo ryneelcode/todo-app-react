@@ -17,18 +17,19 @@ function App() {
   const [todos, addTodo, removeTodo] = useTodo(initalTodos);
   const [isVisible, showModal, closeModal] = useModal(false);
   // TODO confirmacion de borrar tarea, editar las tareas disponibles (utilizar el mismo modal y form), notificiaciones (agregado, borrado)
+  // TODO limit calling frecuenccies on formNotification for better performance
   return (
     <div className="app-todo">
-      <h1>Lista de tareas</h1>
+      <h1>TODO</h1>
       <button className="add-button" onClick={showModal}>
         <img src="/add-icon.svg" alt="boton añádir tarea" />
       </button>
       <Modal
         isVisible={isVisible}
         closeModal={closeModal}
-        title={"Añadir tarea"}
+        title={"New Todo"}
       >
-        <FormTodo addTodo={addTodo} formIsVisible={isVisible} />
+        <FormTodo addTodo={addTodo} isFormVisible={isVisible} />
       </Modal>
       <section className="todo-list">
         <ListTodo todos={todos} removeTodo={removeTodo} />

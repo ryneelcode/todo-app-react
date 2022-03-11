@@ -6,45 +6,47 @@ const initialValues = {
   title: {
     value: "",
     pattern: /^[A-Za-z\s]+$/,
-    errorMessage: "solo letras",
+    errorMessage: "letters only",
     isRequired: true,
     isTouched: false
   },
   description: {
     value: "",
     pattern: /^[A-Za-z\s]+$/,
-    errorMessage: "solo letras",
+    errorMessage: "letters only",
     isRequired: false,
     isTouched: false
   }
 };
 
-const FormTodo = ({ addTodo, formIsVisible }) => {
+const FormTodo = ({ addTodo, isFormVisible }) => {
   const {
     values,
+    submited,
     errors,
     handleOnChange,
     handleOnBlur,
     handleOnSubmit,
-    fieldValidate,
-    formReset
+    validateField,
+    resetForm
   } = useForm(initialValues);
 
   useEffect(() => {
-    formReset();
-  }, [formIsVisible]);
+    if (!isFormVisible) {
+      resetForm();
+    }
+  }, [isFormVisible]);
 
-  console.log(formIsVisible, values);
-  // TODO crear notificacion de todo agregado, o formulario incompleto
   return (
     <form className="form-todo" onSubmit={e => handleOnSubmit(e, addTodo)}>
-      <label htmlFor="title">Título {errors.title && <span className="error-message">{errors.title}</span>}</label>
-      <input type="text" name="title" className="field" onChange={handleOnChange} onKeyUp={fieldValidate} onBlur={handleOnBlur} value={values.title.value} />
+      <label htmlFor="title">Title {errors.title && <span className="error-label">{errors.title}</span>}</label>
+      <input type="text" name="title" className={errors.title && submited.isSubmited !== null ? "field error-field" : "field"} onChange={handleOnChange} onKeyUp={validateField} onBlur={handleOnBlur} value={values.title.value} />
 
-      <label htmlFor="title">Descripción {errors.description && <span className="error-message">{errors.description}</span>}</label>
-      <textarea name="description" className="field" id="" cols="30" rows="10" onChange={handleOnChange} onKeyUp={fieldValidate} onBlur={handleOnBlur} value={values.description.value}></textarea>
+      <label htmlFor="title">Description {errors.description && <span className="error-label">{errors.description}</span>}</label>
+      <textarea name="description" className={errors.description && submited.isSubmited !== null ? "field error-field" : "field"} id="" cols="30" rows="10" onChange={handleOnChange} onKeyUp={validateField} onBlur={handleOnBlur} value={values.description.value}></textarea>
+      {submited.isSubmited !== null && <span className={submited.isSubmited ? "notification notification-success" : "notification notification-error"}>{submited.message}</span>}
       <button className="send-todo">
-        Agregar
+        Add Todo
       </button>
     </form>
   );

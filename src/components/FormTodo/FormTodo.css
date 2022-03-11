@@ -38,13 +38,24 @@
   background-color:#fcdedb33;
   border-color: #EC4234;
   border-style: solid;
-  border-width: 2px 2px 2px 10px;
+  border-width: 2px;
 }
 .error-label{
-  padding:1px 4px 1px 4px;
-  color: #EC4234;
-  border-radius:3px;
-}
-.error-message{
   color: red;
+}
+.notification{
+  display:block;
+  text-align:center;
+  border-radius:5px;
+  color:white;
+  font-weight: 500;
+  padding: 2px 0px 2px 0px;
+}
+
+.notification-error{
+  background-color:#EC4234;
+}
+
+.notification-success{
+  background-color:#54C66E;
 }
