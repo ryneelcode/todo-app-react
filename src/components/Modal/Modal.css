@@ -7,6 +7,9 @@
   backdrop-filter: blur(2px);
   justify-content:center;
   align-items:center;
+  overflow: auto;
+  top:0;
+  left:0;
 }
 .modal-open{
   display:flex;
@@ -16,7 +19,7 @@
   align-items:center;
   flex-direction:column;
   width:35em;
-  height:25em;
+  min-height:18em;
   background-color:white;
   color: black;
   border-radius:5px;

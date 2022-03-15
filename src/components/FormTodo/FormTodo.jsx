@@ -19,7 +19,7 @@ const initialValues = {
   }
 };
 
-const FormTodo = ({ addTodo, isFormVisible }) => {
+const FormTodo = ({ submitCallback, isFormVisible, initialFormValues = initialValues }) => {
   const {
     values,
     submited,
@@ -29,7 +29,7 @@ const FormTodo = ({ addTodo, isFormVisible }) => {
     handleOnSubmit,
     validateField,
     resetForm
-  } = useForm(initialValues);
+  } = useForm(initialFormValues);
 
   useEffect(() => {
     if (!isFormVisible) {
@@ -38,7 +38,7 @@ const FormTodo = ({ addTodo, isFormVisible }) => {
   }, [isFormVisible]);
 
   return (
-    <form className="form-todo" onSubmit={e => handleOnSubmit(e, addTodo)}>
+    <form className="form-todo" onSubmit={e => handleOnSubmit(e, submitCallback)}>
       <label htmlFor="title">Title {errors.title && <span className="error-label">{errors.title}</span>}</label>
       <input type="text" name="title" className={errors.title && submited.isSubmited !== null ? "field error-field" : "field"} onChange={handleOnChange} onKeyUp={validateField} onBlur={handleOnBlur} value={values.title.value} />
 

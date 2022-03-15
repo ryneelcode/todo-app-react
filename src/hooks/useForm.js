@@ -39,7 +39,7 @@ export const useForm = (initialValues) => {
     setValues({ ...values, [name]: { ...values[name], isTouched: true } });
   };
 
-  const handleOnSubmit = (e, callback) => {
+  const handleOnSubmit = (e, submitCallback) => {
     e.preventDefault();
     setErrors(formValidate(values));
 
@@ -49,7 +49,7 @@ export const useForm = (initialValues) => {
         const [key, value] = field;
         dataToSend[key] = value.value;
       });
-      callback(dataToSend);
+      submitCallback(dataToSend);
       setIsSubmited({ ...submited, isSubmited: true, message: "todo added" });
     } else {
       setIsSubmited({ ...submited, isSubmited: false, message: "complete the fields" });
