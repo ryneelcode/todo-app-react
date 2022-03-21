@@ -1,13 +1,12 @@
 import "./Todo.css";
-
-const Todo = ({ id, title, description, handleDelete, handleEdit }) => {
+const Todo = ({ id, title, description, isCompleted, handleDelete, handleEdit, handleComplete }) => {
   return (
-    <article className="todo" >
+    <article className={isCompleted ? "todo finaliced" : "todo"}>
       <h1>{title}</h1>
       <p>{description}</p>
-      <label htmlFor="isCompleted">Finalizar <input type="radio" name="isCompleted" /></label>
-      <button onClick={() => handleDelete(id)}>Eliminar</button>
-      <button onClick={() => handleEdit(id)}>Editar</button>
+      <label htmlFor="isCompleted">{isCompleted ? "completed" : "complete"} <input type="checkbox" name="isCompleted" onChange={(e) => handleComplete(e, id)} /></label>
+      <button onClick={() => handleDelete(id)}>Delete</button>
+      {!isCompleted && <button onClick={() => handleEdit(id)}>Edit</button>}
     </article >
   );
 };

@@ -23,5 +23,12 @@ export function useTodo(initalTodos = []) {
     const updatedTodos = todos.map(todos => todos.id === id ? { ...todos, title: todo.title, description: todo.description } : todos);
     setTodo(updatedTodos);
   };
-  return [todos, addTodo, editTodo, removeTodo];
+
+  const completeTodo = (id, isChecked) => {
+    const updatedTodos = todos
+      .map(todos => todos.id === id ? { ...todos, isCompleted: isChecked } : todos)
+      .sort(todo => todo.isCompleted ? 1 : -1);
+    setTodo(updatedTodos);
+  };
+  return [todos, addTodo, editTodo, removeTodo, completeTodo];
 }

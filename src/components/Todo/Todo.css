@@ -16,5 +16,15 @@
   width: 15em;
   min-height: 10em;
   border-radius:5px;
-  border-left: 10px solid #BB8FCE  ;
+  border-left: 10px solid #BB8FCE;
+}
+.todo.finaliced {
+  background-color: slategray;
+  border-left: 10px solid indianred;
+  color: ghostwhite;
+  transition: all 350ms;
+}
+.todo.finaliced h1, .todo.finaliced p{
+  color: ghostwhite;
+  text-decoration:line-through;
 }

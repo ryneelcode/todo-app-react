@@ -22,7 +22,7 @@ const initialValues = {
   }
 };
 
-const ListTodo = ({ todos, editTodo, removeTodo }) => {
+const ListTodo = ({ todos, editTodo, removeTodo, completeTodo }) => {
   const [isVisible, showAlert, closeAlert] = useModal(false);
   const [isEditableTodo, setIsEditableTodo] = useState(false);
   const [isDeletableTodo, setIsDeletableTodo] = useState(false);
@@ -60,6 +60,10 @@ const ListTodo = ({ todos, editTodo, removeTodo }) => {
     closeAlert();
   };
 
+  const handleCompleteTodo = (e, id) => {
+    completeTodo(id, e.target.checked);
+  };
+
   const handleCallback = (todo) => {
     inputsValuesRef.current.title.value = todo.title;
     inputsValuesRef.current.description.value = todo.description;
@@ -69,14 +73,16 @@ const ListTodo = ({ todos, editTodo, removeTodo }) => {
   return (
     <>
       {
-        todos.map(({ id, title, description }) => (
+        todos.map(({ id, title, description, isCompleted }) => (
           <Todo
             key={id}
             id={id}
             title={title}
             description={description}
+            isCompleted={isCompleted}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            handleComplete={handleCompleteTodo}
           />
         ))
       }

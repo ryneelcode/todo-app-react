@@ -1,20 +1,27 @@
 import "./App.css";
+import { useEffect } from "react";
 import FormTodo from "./components/FormTodo/FormTodo";
 import ListTodo from "./components/ListTodo/ListTodo";
 import Modal from "./components/Modal/Modal";
 import { useModal } from "./hooks/useModal";
 import { useTodo } from "./hooks/useTodo";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
-const initalTodos = [
-  { id: 1, title: "new task 1", description: "description 1", isCompleted: false },
-  { id: 2, title: "new task 2", description: "description 2", isCompleted: false },
-  { id: 3, title: "new task 3", description: "description 3", isCompleted: false },
-  { id: 4, title: "new task 4", description: "description 4", isCompleted: false }
+const initialTodos = [
+  { id: 3, title: "First task", description: "First description", isCompleted: false },
+  { id: 2, title: "Second task", description: "Second description", isCompleted: false }
 ];
 
+// TODO al cargar la página salga checked el completed
+// TODO componente renderizador de formulario con inputs
 function App() {
-  const [todos, addTodo, editTodo, removeTodo] = useTodo(initalTodos);
+  const [initalValues, setInitalValues] = useLocalStorage("task_todolist", initialTodos);
+  const [todos, addTodo, editTodo, removeTodo, completeTodo] = useTodo(initalValues);
   const [isVisible, showModal, closeModal] = useModal(false);
+
+  useEffect(() => {
+    setInitalValues(todos);
+  }, [todos]);
 
   return (
     <div className="app-todo">
@@ -30,7 +37,7 @@ function App() {
         <FormTodo submitCallback={addTodo} isFormVisible={isVisible} />
       </Modal>
       <section className="todo-list">
-        <ListTodo todos={todos} removeTodo={removeTodo} editTodo={editTodo} />
+        <ListTodo todos={todos} removeTodo={removeTodo} editTodo={editTodo} completeTodo={completeTodo} />
       </section>
     </div>
   );
