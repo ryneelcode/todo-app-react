@@ -1,10 +1,9 @@
-import Modal from "./components/Modal/Modal";
-import ListTodo from "./components/ListTodo/ListTodo";
-import FormTodo from "./components/FormTodo/FormTodo";
-import { useTodo } from "./hooks/useTodo";
-import { useModal } from "./hooks/useModal";
-
 import "./App.css";
+import FormTodo from "./components/FormTodo/FormTodo";
+import ListTodo from "./components/ListTodo/ListTodo";
+import Modal from "./components/Modal/Modal";
+import { useModal } from "./hooks/useModal";
+import { useTodo } from "./hooks/useTodo";
 
 const initalTodos = [
   { id: 1, title: "new task 1", description: "description 1", isCompleted: false },
@@ -14,10 +13,9 @@ const initalTodos = [
 ];
 
 function App() {
-  const [todos, addTodo, removeTodo] = useTodo(initalTodos);
+  const [todos, addTodo, editTodo, removeTodo] = useTodo(initalTodos);
   const [isVisible, showModal, closeModal] = useModal(false);
-  // TODO confirmacion de borrar tarea, editar las tareas disponibles (utilizar el mismo modal y form)
-  // TODO limit calling frecuenccies on formNotification for better performance
+
   return (
     <div className="app-todo">
       <h1>TODO</h1>
@@ -32,7 +30,7 @@ function App() {
         <FormTodo submitCallback={addTodo} isFormVisible={isVisible} />
       </Modal>
       <section className="todo-list">
-        <ListTodo todos={todos} removeTodo={removeTodo} />
+        <ListTodo todos={todos} removeTodo={removeTodo} editTodo={editTodo} />
       </section>
     </div>
   );

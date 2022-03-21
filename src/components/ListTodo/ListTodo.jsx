@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
-import { useModal } from "../../hooks/useModal";
+import { useRef, useState } from "react";
 import ConfirmAlert from "../../components/ConfirmAlert/ConfirmAlert";
-import FormTodo from "../FormTodo/FormTodo";
 import Modal from "../../components/Modal/Modal";
+import { useModal } from "../../hooks/useModal";
+import FormTodo from "../FormTodo/FormTodo";
 import Todo from "../Todo/Todo";
 
 const initialValues = {
@@ -15,40 +15,42 @@ const initialValues = {
   },
   description: {
     value: "",
-    pattern: /^[A-Za-z\s]+$/,
+    pattern: "",
     errorMessage: "letters only",
     isRequired: false,
     isTouched: false
   }
 };
 
-const ListTodo = ({ todos, removeTodo }) => {
+const ListTodo = ({ todos, editTodo, removeTodo }) => {
   const [isVisible, showAlert, closeAlert] = useModal(false);
   const [isEditableTodo, setIsEditableTodo] = useState(false);
   const [isDeletableTodo, setIsDeletableTodo] = useState(false);
-
-  const idRef = useRef(null);
-  const todoToDelete = todos.find(todo => todo.id === idRef.current);
+  const inputsValuesRef = useRef(initialValues);
+  const idTodoRef = useRef(null);
+  const todoRef = useRef(null);
 
   const handleDelete = (id) => {
     showAlert();
     setIsDeletableTodo(true);
-    idRef.current = id;
+    idTodoRef.current = id;
+    todoRef.current = todos.find(todo => todo.id === idTodoRef.current);
+    inputsValuesRef.current.title.value = todoRef.current.title;
+    inputsValuesRef.current.description.value = todoRef.current.description;
   };
 
-  // TODO pasar datos al formulario para que muestre los valores en el input al editar valor
-  // TODO refactorizar el componente de form para al pasarle valores iniciales renderize inputs con el tipo
   const handleEdit = (id) => {
     showAlert();
     setIsEditableTodo(true);
-    const todoToEdit = todos.find(todo => todo.id === id);
-    idRef.current = id;
-    initialValues.title.value = todoToEdit.title;
-    initialValues.description.value = todoToEdit.description;
+    idTodoRef.current = id;
+    todoRef.current = todos.find(todo => todo.id === idTodoRef.current);
+    inputsValuesRef.current.title.value = todoRef.current.title;
+    inputsValuesRef.current.description.value = todoRef.current.description;
   };
 
   const handleConfirmAlert = () => {
-    removeTodo(idRef.current);
+    removeTodo(idTodoRef.current);
+    setIsDeletableTodo(false);
     closeAlert();
   };
 
@@ -58,8 +60,10 @@ const ListTodo = ({ todos, removeTodo }) => {
     closeAlert();
   };
 
-  const callback = () => {
-    console.log("callback ejecutado");
+  const handleCallback = (todo) => {
+    inputsValuesRef.current.title.value = todo.title;
+    inputsValuesRef.current.description.value = todo.description;
+    editTodo(idTodoRef.current, todo);
   };
 
   return (
@@ -76,13 +80,12 @@ const ListTodo = ({ todos, removeTodo }) => {
           />
         ))
       }
-      <Modal isVisible={isVisible} closeModal={handleCancelAlert} title={todoToDelete?.title}>
-        {isDeletableTodo && <p>{todoToDelete?.description}</p>}
+      <Modal isVisible={isVisible} closeModal={handleCancelAlert} title={inputsValuesRef.current?.title.value}>
+        {isDeletableTodo && <p>{todoRef.current?.description}</p>}
         {isDeletableTodo && <ConfirmAlert title={"Do you want to delete this task?"} cancel={handleCancelAlert} confirm={handleConfirmAlert} />}
 
-        {isEditableTodo && <FormTodo isFormVisible={isVisible} submitCallback={callback} initialFormValues={initialValues} />}
+        {isEditableTodo && <FormTodo isFormVisible={isVisible} submitCallback={handleCallback} initialFormValues={inputsValuesRef.current} />}
       </Modal>
-
     </>
   );
 };

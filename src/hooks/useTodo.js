@@ -19,5 +19,9 @@ export function useTodo(initalTodos = []) {
     setTodo(changedTodo);
   };
 
-  return [todos, addTodo, removeTodo];
+  const editTodo = (id, todo) => {
+    const updatedTodos = todos.map(todos => todos.id === id ? { ...todos, title: todo.title, description: todo.description } : todos);
+    setTodo(updatedTodos);
+  };
+  return [todos, addTodo, editTodo, removeTodo];
 }

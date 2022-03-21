@@ -8,6 +8,14 @@ export const useForm = (initialValues) => {
   useEffect(() => {
     if (submited.isSubmited !== null) {
       formNotification();
+
+      const timeOut = setTimeout(() => {
+        setIsSubmited({ ...submited, isSubmited: null, message: "" });
+      }, 2500);
+
+      return () => {
+        clearTimeout(timeOut);
+      };
     }
   }, [submited]);
 
@@ -16,9 +24,6 @@ export const useForm = (initialValues) => {
       setValues(initialValues);
       setErrors({});
     }
-    setTimeout(() => {
-      setIsSubmited({ ...submited, isSubmited: null, message: "" });
-    }, 2500);
   };
 
   const resetForm = () => {
@@ -47,7 +52,7 @@ export const useForm = (initialValues) => {
       const dataToSend = {};
       Object.entries(values).forEach(field => {
         const [key, value] = field;
-        dataToSend[key] = value.value;
+        dataToSend[key] = value.value.trim();
       });
       submitCallback(dataToSend);
       setIsSubmited({ ...submited, isSubmited: true, message: "todo added" });
@@ -120,6 +125,9 @@ const validation = (key, values) => {
         } else {
           fieldError = values.errorMessage;
         }
+      } else {
+        fieldName = "";
+        fieldError = "";
       }
     } else {
       fieldName = "";
