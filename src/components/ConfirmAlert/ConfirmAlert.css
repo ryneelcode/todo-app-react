@@ -1,34 +1,33 @@
-.alert{
-  width:100%;
-  text-align:center;
-  min-height:130px;
+.alert {
+  width: 100%;
+  text-align: center;
+  min-height: 130px;
 }
 
-.alert-buttons{
+.alert-buttons {
   display: flex;
-  justify-content:center;
-  padding:5px;
-  gap:15px;
-}
-.alert-buttons>button{
-  font-weight: 600;
-  color: white;
-  width: 40%;
-  height:30px;
-  font-size:15px;
-  margin: 10px;
-  padding: 3px;
-  border-radius: 5px;
-  outline: none;
-  align-self: center;
-}
+  justify-content: center;
+  padding: 5px;
+  gap: 15px;
 
-.alert-buttons .confirm{
-  background-color: #54C66E;
-  border: 1px solid #54C66E;
-}
+  & button {
+    font-weight: 600;
+    color: white;
+    width: 40%;
+    height: 30px;
+    font-size: 15px;
+    margin: 10px;
+    padding: 3px;
+    border-radius: 5px;
+    outline: none;
+    align-self: center;
+  }
 
-.alert-buttons .cancel{
-  background-color: #EC4234;
-  border: 1px solid #EC4234;
+  & .confirm {
+    background-color: #54c66e;
+  }
+
+  & .cancel {
+    background-color: #ec4234;
+  }
 }

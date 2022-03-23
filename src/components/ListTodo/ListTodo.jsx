@@ -15,8 +15,8 @@ const initialValues = {
   },
   description: {
     value: "",
-    pattern: "",
-    errorMessage: "letters only",
+    pattern: /^.{0,105}$/,
+    errorMessage: "only 105 characters",
     isRequired: false,
     isTouched: false
   }

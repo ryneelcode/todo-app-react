@@ -6,14 +6,13 @@ import Modal from "./components/Modal/Modal";
 import { useModal } from "./hooks/useModal";
 import { useTodo } from "./hooks/useTodo";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { AiOutlineAppstoreAdd } from "react-icons/ai";
 
 const initialTodos = [
   { id: 3, title: "First task", description: "First description", isCompleted: false },
   { id: 2, title: "Second task", description: "Second description", isCompleted: false }
 ];
 
-// TODO al cargar la página salga checked el completed
-// TODO componente renderizador de formulario con inputs
 function App() {
   const [initalValues, setInitalValues] = useLocalStorage("task_todolist", initialTodos);
   const [todos, addTodo, editTodo, removeTodo, completeTodo] = useTodo(initalValues);
@@ -27,7 +26,7 @@ function App() {
     <div className="app-todo">
       <h1>TODO</h1>
       <button className="add-button" onClick={showModal}>
-        <img src="/add-icon.svg" alt="boton añádir tarea" />
+        <AiOutlineAppstoreAdd className="add-icon" title="addicon" />
       </button>
       <Modal
         isVisible={isVisible}

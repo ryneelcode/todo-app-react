@@ -1,30 +1,98 @@
-.appTodo{
-  width: 1vw;
-  height: 1vh;
-  background-color:;
+button {
+  background-color: transparent;
+  border: none;
 }
-.add-button{
-  width:50px;
-  height:50px;
-  background-color:transparent;
-  border:none;
+
+.todo h1 {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.todo{
-  box-sizing:border-box;
+
+.todo h1,
+.todo p {
+  margin: 5px 0;
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   background-color: white;
-  color: #282c34;
+  overflow: hidden;
+  color: #3e4042;
   width: 15em;
-  min-height: 10em;
-  border-radius:5px;
-  border-left: 10px solid #BB8FCE;
+  padding: 0 2px 0 4px;
+  height: 10em;
+  border-radius: 5px;
+  border-left: 11px solid #bb8fce;
 }
-.todo.finaliced {
-  background-color: slategray;
-  border-left: 10px solid indianred;
-  color: ghostwhite;
+
+.todo.finalised {
+  background-color: #709087;
+  border-left: 10px solid lightgreen;
+
+  color: lightgreen;
   transition: all 350ms;
 }
-.todo.finaliced h1, .todo.finaliced p{
+
+.todo.finalised h1,
+.todo.finalised p {
   color: ghostwhite;
-  text-decoration:line-through;
+  text-decoration: line-through;
+}
+
+.todo-actions {
+  width: 100%;
+  height: 40px;
+  display: flex;
+}
+
+.todo-actions > h1 {
+  flex-grow: 1;
+}
+
+.todo-icon {
+  color: #787878;
+  font-size: 21px;
+}
+
+.todo-check {
+  font-weight: 500;
+}
+
+.delete {
+  transition: all 250ms;
+  flex-grow: 1;
+
+  &:hover {
+    color: #f35a5a;
+    transform: scale(1.2);
+  }
+
+  &.finalised {
+    color: white;
+
+    &:hover {
+      color: #f35a5a;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.edit {
+  transition: all 250ms;
+  flex-grow: 1;
+
+  &:hover {
+    color: lightgreen;
+    transform: scale(1.2);
+  }
+}
+
+.todo-description {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
 }
