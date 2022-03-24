@@ -3,18 +3,6 @@ button {
   border: none;
 }
 
-.todo h1 {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.todo h1,
-.todo p {
-  margin: 5px 0;
-}
-
 .todo {
   display: flex;
   flex-direction: column;
@@ -22,44 +10,50 @@ button {
   background-color: white;
   overflow: hidden;
   color: #3e4042;
-  width: 15em;
+  width: 18em;
   padding: 0 2px 0 4px;
-  height: 10em;
+  height: 9em;
   border-radius: 5px;
-  border-left: 11px solid #bb8fce;
-}
+  border-left: 12px solid var(--todo-color);
 
-.todo.finalised {
-  background-color: #709087;
-  border-left: 10px solid lightgreen;
+  & h1 {
+    margin: 5px 0;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-  color: lightgreen;
-  transition: all 350ms;
-}
+  & p {
+    margin: 5px 0;
+  }
 
-.todo.finalised h1,
-.todo.finalised p {
-  color: ghostwhite;
-  text-decoration: line-through;
+  &.finalised {
+    background-color: #709087;
+    border-left: 10px solid lightgreen;
+    color: lightgreen;
+    transition: all 350ms;
+
+    & h1,
+    & p {
+      color: ghostwhite;
+      text-decoration: line-through;
+    }
+  }
 }
 
 .todo-actions {
   width: 100%;
-  height: 40px;
   display: flex;
-}
 
-.todo-actions > h1 {
-  flex-grow: 1;
+  & h1 {
+    flex-grow: 1;
+  }
 }
 
 .todo-icon {
   color: #787878;
   font-size: 21px;
-}
-
-.todo-check {
-  font-weight: 500;
 }
 
 .delete {
@@ -88,6 +82,46 @@ button {
   &:hover {
     color: lightgreen;
     transform: scale(1.2);
+  }
+}
+
+.todo-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  & input[type="checkbox"] {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentcolor;
+    width: 1em;
+    height: 1em;
+    border: 0.14em solid #787878;
+    border-radius: 0.15em;
+    transform: translateY(0.1em);
+    display: grid;
+
+    &::before {
+      content: "";
+      width: 0.65em;
+      height: 0.65em;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+
+      box-shadow: inset 1em 1em currentcolor;
+    }
+
+    &:checked {
+      border: 0.14em solid currentcolor;
+    }
+
+    &:checked::before {
+      transform: scale(1);
+      transform-origin: bottom left;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
   }
 }
 

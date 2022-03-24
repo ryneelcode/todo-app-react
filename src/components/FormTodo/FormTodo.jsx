@@ -12,8 +12,8 @@ const initialValues = {
   },
   description: {
     value: "",
-    pattern: /^.{0,255}$/,
-    errorMessage: "only 255 characters",
+    pattern: /^.{0,105}$/,
+    errorMessage: "limit 105 characters",
     isRequired: false,
     isTouched: false
   }
@@ -44,10 +44,13 @@ const FormTodo = ({ submitCallback, isFormVisible, initialFormValues = initialVa
 
       <label htmlFor="title">Description {errors.description && <span className="error-label">{errors.description}</span>}</label>
       <textarea name="description" className={errors.description && submited.isSubmited !== null ? "field error-field" : "field"} id="" cols="10" rows="6" onChange={handleOnChange} onKeyUp={validateField} onBlur={handleOnBlur} value={values.description.value}></textarea>
-      {submited.isSubmited !== null && <span className={submited.isSubmited ? "notification notification-success" : "notification notification-error"}>{submited.message}</span>}
+      <div className="container-notification">
+        {submited.isSubmited !== null && <span className={submited.isSubmited ? "notification notification-success" : "notification notification-error"}>{submited.message}</span>}
+      </div>
       <button className="send-todo">
         Add Todo
       </button>
+
     </form>
   );
 };

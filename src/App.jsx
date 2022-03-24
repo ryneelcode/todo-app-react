@@ -25,13 +25,13 @@ function App() {
   return (
     <div className="app-todo">
       <h1>TODO</h1>
-      <button className="add-button" onClick={showModal}>
+      <button className="add-button" aria-label="add todo" onClick={showModal}>
         <AiOutlineAppstoreAdd className="add-icon" title="addicon" />
       </button>
       <Modal
         isVisible={isVisible}
         closeModal={closeModal}
-        title={"New Todo"}
+        title={"New Task"}
       >
         <FormTodo submitCallback={addTodo} isFormVisible={isVisible} />
       </Modal>

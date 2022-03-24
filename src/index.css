@@ -1,20 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400&display=swap");
+
 body {
   margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
+  font-family: Fredoka, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: rgb(69 252 232);
   background: linear-gradient(90deg, rgb(69 252 232 / 60%) 0%, rgb(29 176 253 / 80%) 50%, rgb(69 251 252 / 50%) 100%);
   color: white;
 }

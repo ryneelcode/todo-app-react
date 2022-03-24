@@ -1,9 +1,15 @@
 import { useRef, useState } from "react";
-import ConfirmAlert from "../../components/ConfirmAlert/ConfirmAlert";
+import Alert from "../Alert/Alert";
 import Modal from "../../components/Modal/Modal";
 import { useModal } from "../../hooks/useModal";
 import FormTodo from "../FormTodo/FormTodo";
 import Todo from "../Todo/Todo";
+
+const randomColorTodo = () => {
+  const colors = ["#76D7C4", "#7DCEA0", "#F8C471", "#E59866", "#BB8FCE", "#5499C7"];
+  const colorSelected = colors[Math.floor(Math.random() * colors.length)];
+  return colorSelected;
+};
 
 const initialValues = {
   title: {
@@ -16,7 +22,7 @@ const initialValues = {
   description: {
     value: "",
     pattern: /^.{0,105}$/,
-    errorMessage: "only 105 characters",
+    errorMessage: "limit 105 characters",
     isRequired: false,
     isTouched: false
   }
@@ -83,12 +89,13 @@ const ListTodo = ({ todos, editTodo, removeTodo, completeTodo }) => {
             handleDelete={handleDelete}
             handleEdit={handleEdit}
             handleComplete={handleCompleteTodo}
+            color={randomColorTodo()}
           />
         ))
       }
       <Modal isVisible={isVisible} closeModal={handleCancelAlert} title={inputsValuesRef.current?.title.value}>
         {isDeletableTodo && <p>{todoRef.current?.description}</p>}
-        {isDeletableTodo && <ConfirmAlert title={"Do you want to delete this task?"} cancel={handleCancelAlert} confirm={handleConfirmAlert} />}
+        {isDeletableTodo && <Alert title={"Do you want to delete this task?"} cancel={handleCancelAlert} confirm={handleConfirmAlert} />}
 
         {isEditableTodo && <FormTodo isFormVisible={isVisible} submitCallback={handleCallback} initialFormValues={inputsValuesRef.current} />}
       </Modal>
